@@ -13,7 +13,7 @@
             :text="this.$auth.user.handle"
             left
           >
-            <b-dropdown-item href="#">Dashboard</b-dropdown-item>
+            <b-dropdown-item @click="goToDashboard">Dashboard</b-dropdown-item>
             <b-dropdown-item @click="logoutHandle">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item v-else @click="createHandle">Create Handle</b-nav-item>
@@ -48,6 +48,9 @@ export default {
     },
     joinRoom() {
       this.$router.push({ path: "/users/join-room" });
+    },
+    goToDashboard() {
+      this.$router.push({ path: "/users/dashboard" });
     }
   }
 };

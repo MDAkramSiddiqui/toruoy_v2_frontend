@@ -79,7 +79,7 @@ export default {
       this.show = false;
       let message = `Voila, your handle has been created successfully, and your handle is ${this.$auth.user.handle}`;
       await swal({
-        title: "ChatRoom Created Successfully!",
+        title: "User Handle Created Successfully!",
         text: message,
         icon: "success",
         buttons: "Go To Dashboard"

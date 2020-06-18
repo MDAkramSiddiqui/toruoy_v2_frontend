@@ -1,15 +1,87 @@
 <template>
   <div>
-    <CreateRoom />
+    <Room
+      :items="items"
+      :title="title"
+      :onSubmit="onSubmit"
+      :onReset="onReset"
+      :form="form"
+      :show="show"
+    />
   </div>
 </template>
 
 <script>
-import CreateRoom from "@/components/CreateRoom";
+import swal from "sweetalert";
+import Room from "@/components/Room";
 export default {
   components: {
-    CreateRoom
+    Room
   },
-  middleware: "auth"
+  data: () => {
+    return {
+      items: [
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem maxime id aliquam voluptas nulla voluptatibus quis illum dignissimos tempore eaque! Aliquam omnis, atque obcaecati quae sit quas distinctio ea voluptas.",
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem maxime id aliquam voluptas nulla voluptatibus quis illum dignissimos tempore eaque! Aliquam omnis, atque obcaecati quae sit quas distinctio ea voluptas.",
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem maxime id aliquam voluptas nulla voluptatibus quis illum dignissimos tempore eaque! Aliquam omnis, atque obcaecati quae sit quas distinctio ea voluptas."
+      ],
+      title: "Create ChatRoom",
+      form: {
+        chatRoomPassword: "",
+        chatRoomHandle: ""
+      },
+      show: false
+    };
+  },
+  middleware: "auth",
+  methods: {
+    async onSubmit(e) {
+      e.preventDefault();
+      this.show = true;
+      const result = await this.$axios.$post(
+        "/chat-room/create-room",
+        this.form
+      );
+      this.show = false;
+
+      if (result.status === "success") {
+        let message = `ChatRoom Created Successfully, ChatRoom Id/Name is ${result.data.chatRoomHandle}`;
+        this.chatRoomHandle = result.data.chatRoomHandle;
+        swal({
+          title: "ChatRoom Created Successfully!",
+          text: message,
+          icon: "success",
+          buttons: {
+            goToDashboard: {
+              text: "Go to Dashboard",
+              value: true
+            },
+            createMore: {
+              text: "Create More Chatrooms.",
+              value: false
+            }
+          }
+        }).then(value => {
+          if (value) this.$router.push("/users/dashboard");
+          else {
+            this.form.chatRoomPassword = "";
+            this.form.chatRoomHandle = "";
+          }
+        });
+      } else {
+        swal({
+          title: "ChatRoom Create",
+          text: "Some Problem occured, Please try again.",
+          icon: "error",
+          buttons: "Got it!!!"
+        });
+      }
+    },
+    onReset(e) {
+      e.preventDefault();
+      this.form.chatRoomPassword = "";
+      this.form.chatRoomHandle = "";
+    }
+  }
 };
 </script>

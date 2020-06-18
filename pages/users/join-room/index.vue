@@ -1,15 +1,90 @@
 <template>
   <div>
-    <JoinRoom />
+    <Room
+      :items="items"
+      :title="title"
+      :onSubmit="onSubmit"
+      :onReset="onReset"
+      :form="form"
+      :show="show"
+    />
   </div>
 </template>
 
 <script>
-import JoinRoom from "@/components/JoinRoom";
+import swal from "sweetalert";
+import Room from "@/components/Room";
 export default {
   components: {
-    JoinRoom
+    Room
   },
-  middleware: "auth"
+  middleware: "auth",
+  data: () => {
+    return {
+      items: [
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem maxime id aliquam voluptas nulla voluptatibus quis illum dignissimos tempore eaque! Aliquam omnis, atque obcaecati quae sit quas distinctio ea voluptas.",
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem maxime id aliquam voluptas nulla voluptatibus quis illum dignissimos tempore eaque! Aliquam omnis, atque obcaecati quae sit quas distinctio ea voluptas.",
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem maxime id aliquam voluptas nulla voluptatibus quis illum dignissimos tempore eaque! Aliquam omnis, atque obcaecati quae sit quas distinctio ea voluptas."
+      ],
+      title: "Join ChatRoom",
+      form: {
+        chatRoomPassword: "",
+        chatRoomHandle: ""
+      },
+      show: false
+    };
+  },
+  methods: {
+    async onSubmit(e) {
+      e.preventDefault();
+      try {
+        this.show = true;
+        const result = await this.$axios.$post(
+          "/chat-room/join-room",
+          this.form
+        );
+        this.show = false;
+
+        let message = `ChatRoom Joined Successfully, ChatRoom Id/Name is ${result.data.chatRoomHandle}`;
+        this.chatRoomHandle = result.data.chatRoomHandle;
+        swal({
+          title: "ChatRoom Joined Successfully!",
+          text: message,
+          icon: "success",
+          buttons: {
+            goToDashboard: {
+              text: "Go to Dashboard",
+              value: true
+            },
+            createMore: {
+              text: "Join More Chatrooms.",
+              value: false
+            }
+          }
+        }).then(value => {
+          if (value) this.$router.push("/users/dashboard");
+          else {
+            this.form.chatRoomPassword = "";
+            this.form.chatRoomHandle = "";
+          }
+        });
+      } catch (err) {
+        await swal({
+          title: "ChatRoom Join",
+          text: "Please check the password or chatRoom ID/Name again.",
+          icon: "error",
+          buttons: "Got it!!!"
+        });
+        this.show = false;
+        this.form.chatRoomPassword = "";
+        this.form.chatRoomHandle = "";
+      }
+    },
+    onReset(e) {
+      e.preventDefault();
+      this.form.chatRoomPassword = "";
+      this.form.chatRoomHandle = "";
+    }
+  }
 };
 </script>
