@@ -10,8 +10,8 @@
         <b-row>
           <b-col sm="6">
             <b-list-group>
-              <b-list-group-item v-for="i in items.length" :key="i">
-                {{ items[i] }}
+              <b-list-group-item v-for="(item, i) in items" :key="i">
+                {{ item }}
               </b-list-group-item>
             </b-list-group>
           </b-col>

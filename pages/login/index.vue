@@ -78,13 +78,23 @@ export default {
       });
       this.show = false;
       let message = `Voila, your handle has been created successfully, and your handle is ${this.$auth.user.handle}`;
-      await swal({
+      const result = await swal({
         title: "User Handle Created Successfully!",
         text: message,
         icon: "success",
-        buttons: "Go To Dashboard"
+        buttons: {
+          goToDashboard: {
+            text: "Go To Dashboard",
+            value: true
+          },
+          createChatRoom: {
+            text: "Create ChatRoom",
+            value: false
+          }
+        }
       });
-      this.$router.push({ path: "/users/create-room" });
+      if (result) this.$router.push({ path: "/users/dashboard" });
+      else this.$router.push({ path: "/users/create-room" });
     }
   },
   middleware: "postLogin"
