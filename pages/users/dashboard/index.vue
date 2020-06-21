@@ -5,6 +5,7 @@
       :chatRoomJoinedList="chatRoomJoinedList"
       :chatRoomCreatedList="chatRoomCreatedList"
       :onLeave="onLeave"
+      :onDelete="onDelete"
     />
   </div>
 </template>
@@ -14,9 +15,7 @@ import Dashboard from "@/components/Dashboard";
 export default {
   async fetch() {
     this.show = true;
-    // const result = await this.$axios.$get("users/my-chatrooms");
-    // this.$store.commit("chatroom/UPDATE_CHATROOM_LIST", result.data.rooms);
-    this.$store.dispatch("chatroom/updateChatRoomList");
+    await this.$store.dispatch("chatroom/updateChatRoomList");
     this.show = false;
   },
   components: {
@@ -27,7 +26,7 @@ export default {
       show: false
     };
   },
-  middleware: ["auth", "preDashboard"],
+  middleware: ["auth"],
   computed: {
     chatRoomCreatedList: function() {
       return this.$store.state.chatroom.chatRoomCreatedList;
@@ -40,6 +39,12 @@ export default {
     async onLeave(id) {
       this.show = true;
       await this.$store.dispatch("chatroom/leaveChatRoom", id);
+      this.show = false;
+    },
+
+    async onDelete(id) {
+      this.show = true;
+      await this.$store.dispatch("chatroom/deleteChatRoom", id);
       this.show = false;
     }
   }

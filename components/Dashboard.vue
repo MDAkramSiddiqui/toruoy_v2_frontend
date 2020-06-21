@@ -14,7 +14,14 @@
             >
               {{ room.chatRoomHandle }}
 
-              <b-button variant="danger" size="sm" pill> Delete </b-button>
+              <b-button
+                variant="danger"
+                size="sm"
+                pill
+                @click="onDelete(room._id)"
+              >
+                Delete
+              </b-button>
             </b-list-group-item>
           </b-list-group>
           <h2 class="mt-3"><b-badge>ChatRooms Joined</b-badge></h2>
@@ -31,7 +38,6 @@
                 variant="info"
                 size="sm"
                 pill
-                :id="room.chatRoomId"
                 @click="onLeave(room._id)"
               >
                 Leave
@@ -52,6 +58,12 @@
 
 <script>
 export default {
-  props: ["show", "chatRoomCreatedList", "chatRoomJoinedList", "onLeave"]
+  props: [
+    "show",
+    "chatRoomCreatedList",
+    "chatRoomJoinedList",
+    "onLeave",
+    "onDelete"
+  ]
 };
 </script>
