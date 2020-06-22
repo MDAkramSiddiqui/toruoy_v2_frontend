@@ -1,6 +1,6 @@
 <template>
   <div class="m-4">
-    <b-overlay :show="show" rounded="lg">
+    <b-overlay :show="load" rounded="lg">
       <b-row>
         <b-col sm="3">
           <div class="no-scrollbar">
@@ -17,6 +17,8 @@
               :chatRoomList="chatRoomJoinedList"
               :func="onLeave"
               type="Leave"
+              :isActive="active"
+              :setActive="setActive"
             />
             <div class="mt-4" style="text-align:center">
               <b-button variant="light">
@@ -27,29 +29,15 @@
         </b-col>
 
         <b-col>
-          <b-card no-body text-variant="dark" title="ChatRoom">
-            <div class="msger">
-              <main class="msger-chat">
-                <Message
-                  v-for="(msg, index) in messages"
-                  :key="index"
-                  :message="msg"
-                  :pkey="index"
-                />
-              </main>
+          <b-overlay :show="chatLoad">
+            <div v-if="active === null"></div>
+            <div v-else>
+              <h3>
+                Chatroom: <b-badge>{{ active }}</b-badge>
+              </h3>
+              <ChatBox :messages="messages" />
             </div>
-
-            <div>
-              <form class="msger-inputarea">
-                <input
-                  type="text"
-                  class="msger-input"
-                  placeholder="Enter your message..."
-                />
-                <button type="submit" class="msger-send-btn">Send</button>
-              </form>
-            </div>
-          </b-card>
+          </b-overlay>
         </b-col>
       </b-row>
     </b-overlay>
@@ -58,20 +46,21 @@
 
 <script>
 import Dashboard from "@/components/Dashboard";
-import Message from "@/components/Message";
+import ChatBox from "@/components/ChatBox";
 export default {
   async fetch() {
-    this.show = true;
+    this.load = true;
     await this.$store.dispatch("chatroom/updateChatRoomList");
-    this.show = false;
+    this.load = false;
   },
   components: {
     Dashboard,
-    Message
+    ChatBox
   },
   data: () => {
     return {
-      show: false,
+      load: false,
+      chatLoad: false,
       messages: [
         "Game is the best lorem Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum vero quae saepe unde officia corporis doloribus dolores harum exercitationem minus non velit suscipit quas et, consectetur beatae magnam quos expedita?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum vero quae saepe unde officia corporis doloribus dolores harum exercitationem minus non velit suscipit quas et, consectetur beatae magnam quos expedita?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum vero quae saepe unde officia corporis doloribus dolores harum exercitationem minus non velit suscipit quas et, consectetur beatae magnam quos expedita? ",
         "Human Beings are the best."
@@ -90,19 +79,21 @@ export default {
   },
   methods: {
     async onLeave(id) {
-      this.show = true;
+      this.load = true;
       await this.$store.dispatch("chatroom/leaveChatRoom", id);
-      this.show = false;
+      this.active = null;
+      this.load = false;
     },
 
     async onDelete(id) {
-      this.show = true;
+      this.load = true;
       await this.$store.dispatch("chatroom/deleteChatRoom", id);
-      this.show = false;
+      this.active = null;
+      this.load = false;
     },
 
-    async setActive(id) {
-      this.active = id;
+    async setActive(chatRoomHandle) {
+      this.active = chatRoomHandle;
     }
   }
 };
@@ -122,70 +113,5 @@ export default {
 /* Hide scrollbar for IE and Edge */
 .no-scrollbar {
   -ms-overflow-style: none;
-}
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-.clearfix:after {
-  clear: both;
-}
-
-.msger {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: space-between;
-  width: 100%;
-  height: 70vh;
-}
-
-.msger-chat {
-  flex: 1;
-  overflow-y: scroll;
-  padding: 10px;
-}
-
-.msger-chat::-webkit-scrollbar {
-  width: 6px;
-}
-.msger-chat::-webkit-scrollbar-track {
-  background: #ddd;
-}
-.msger-chat::-webkit-scrollbar-thumb {
-  border-radius: 100px;
-  background: #bdbdbd;
-}
-
-.msger-inputarea {
-  display: flex;
-  padding: 10px;
-  background: #eee;
-}
-
-.msger-inputarea * {
-  padding: 10px;
-  border: none;
-  border-radius: 3px;
-  font-size: 1em;
-}
-
-.msger-input {
-  flex: 1;
-  background: #ddd;
-}
-
-.msger-send-btn {
-  margin-left: 10px;
-  background: rgb(0, 196, 65);
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.23s;
-}
-
-.msger-send-btn:hover {
-  background: rgb(1, 161, 46);
 }
 </style>

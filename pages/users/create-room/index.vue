@@ -6,7 +6,7 @@
       :onSubmit="onSubmit"
       :onReset="onReset"
       :form="form"
-      :show="show"
+      :show="load"
     />
   </div>
 </template>
@@ -30,19 +30,19 @@ export default {
         chatRoomPassword: "",
         chatRoomHandle: ""
       },
-      show: false
+      load: false
     };
   },
   middleware: "auth",
   methods: {
     async onSubmit(e) {
       e.preventDefault();
-      this.show = true;
+      this.load = true;
       const result = await this.$axios.$post(
         "/chat-room/create-room",
         this.form
       );
-      this.show = false;
+      this.load = false;
 
       if (result.status === "success") {
         let message = `ChatRoom Created Successfully, ChatRoom Id/Name is ${result.data.chatRoomHandle}`;

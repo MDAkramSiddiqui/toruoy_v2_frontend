@@ -6,7 +6,7 @@
       :onSubmit="onSubmit"
       :onReset="onReset"
       :form="form"
-      :show="show"
+      :show="load"
     />
   </div>
 </template>
@@ -31,19 +31,19 @@ export default {
         chatRoomPassword: "",
         chatRoomHandle: ""
       },
-      show: false
+      load: false
     };
   },
   methods: {
     async onSubmit(e) {
       e.preventDefault();
       try {
-        this.show = true;
+        this.load = true;
         const result = await this.$axios.$post(
           "/chat-room/join-room",
           this.form
         );
-        this.show = false;
+        this.load = false;
 
         let message = `ChatRoom Joined Successfully, ChatRoom Id/Name is ${result.data.chatRoomHandle}`;
         this.chatRoomHandle = result.data.chatRoomHandle;
@@ -75,7 +75,7 @@ export default {
           icon: "error",
           buttons: "Got it!!!"
         });
-        this.show = false;
+        this.load = false;
         this.form.chatRoomPassword = "";
         this.form.chatRoomHandle = "";
       }

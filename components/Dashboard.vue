@@ -4,8 +4,8 @@
       <b-list-group-item
         class="d-flex justify-content-between align-items-center"
         style="cursor: pointer"
-        :class="{ currentActive: isActive === room._id }"
-        @click="setActive(room._id)"
+        :class="{ currentActive: isActive === room.chatRoomHandle }"
+        @click="setActive(room.chatRoomHandle)"
       >
         {{ room.chatRoomHandle }}
 
@@ -24,7 +24,8 @@ export default {
 </script>
 <style>
 .currentActive {
-  background-color: #333;
+  background-image: linear-gradient(to right, #333, #eee);
+  border-color: #fff;
   color: #eeeeee;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-4">
-    <b-overlay :show="show" rounded="lg">
+    <b-overlay :show="load" rounded="lg">
       <b-container>
         <b-row>
           <h2 class="display-4">
@@ -67,16 +67,16 @@ import swal from "sweetalert";
 export default {
   data: () => {
     return {
-      show: false
+      load: false
     };
   },
   methods: {
     async createHandle() {
-      this.show = true;
+      this.load = true;
       await this.$auth.loginWith("local", {
         data: {}
       });
-      this.show = false;
+      this.load = false;
       let message = `Voila, your handle has been created successfully, and your handle is ${this.$auth.user.handle}`;
       const result = await swal({
         title: "User Handle Created Successfully!",

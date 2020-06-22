@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-overlay :show="show" rounded="lg">
+    <b-overlay :show="load" rounded="lg">
       <b-container>
         <b-row>
           <h2 class="display-4">
@@ -61,6 +61,6 @@
 
 <script>
 export default {
-  props: ["items", "title", "onSubmit", "onReset", "form", "show"]
+  props: ["items", "title", "onSubmit", "onReset", "form", "load"]
 };
 </script>
