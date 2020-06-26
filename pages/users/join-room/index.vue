@@ -26,7 +26,7 @@ export default {
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem maxime id aliquam voluptas nulla voluptatibus quis illum dignissimos tempore eaque! Aliquam omnis, atque obcaecati quae sit quas distinctio ea voluptas.",
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem maxime id aliquam voluptas nulla voluptatibus quis illum dignissimos tempore eaque! Aliquam omnis, atque obcaecati quae sit quas distinctio ea voluptas."
       ],
-      title: "Join ChatRoom",
+      title: "Join Room",
       form: {
         chatRoomPassword: "",
         chatRoomHandle: ""

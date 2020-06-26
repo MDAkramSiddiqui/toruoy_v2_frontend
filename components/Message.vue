@@ -21,7 +21,7 @@
           <div class="msg-info">
             <div class="msg-info-name">{{ userHandle }}</div>
             <div class="msg-info-time">
-              {{ time }}
+              {{ time.replace(/^[^:]*([0-2]\d:[0-5]\d).*$/, "$1") }}
             </div>
           </div>
 

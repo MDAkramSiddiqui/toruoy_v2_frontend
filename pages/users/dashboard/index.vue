@@ -99,13 +99,11 @@ export default {
     },
 
     async postMessage(message) {
-      this.chatLoad = true;
       const data = {
         message,
         chatRoomHandle: this.active
       };
       await this.$store.dispatch("chat/postMessage", data);
-      this.chatLoad = false;
     }
   }
 };

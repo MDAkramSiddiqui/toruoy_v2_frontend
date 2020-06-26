@@ -2,7 +2,7 @@
   <div>
     <b-card no-body text-variant="dark" title="ChatRoom">
       <div class="msger">
-        <main class="msger-chat">
+        <main class="msger-chat scroll-no-div">
           <Message
             v-for="msg in messages"
             :key="msg.id"
@@ -10,6 +10,7 @@
             :time="msg.createdAt"
             :userHandle="msg.userHandle"
           />
+          <div id="anchor"></div>
         </main>
       </div>
 
@@ -49,6 +50,10 @@ export default {
 </script>
 
 <style>
+#anchor {
+  overflow-anchor: auto;
+  height: 1px;
+}
 .clearfix:before,
 .clearfix:after {
   display: table;
@@ -70,6 +75,10 @@ export default {
   flex: 1;
   overflow-y: scroll;
   padding: 10px;
+}
+
+.scroll-no-div * {
+  overflow-anchor: none;
 }
 
 .msger-chat::-webkit-scrollbar {

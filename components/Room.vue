@@ -3,9 +3,11 @@
     <b-overlay :show="load" rounded="lg">
       <b-container>
         <b-row>
-          <h2 class="display-4">
-            <b-badge> {{ title }} </b-badge>
-          </h2>
+          <div>
+            <h2 class="display-4">
+              <b-badge> {{ title }} </b-badge>
+            </h2>
+          </div>
         </b-row>
         <b-row>
           <b-col sm="6">
@@ -64,3 +66,5 @@ export default {
   props: ["items", "title", "onSubmit", "onReset", "form", "load"]
 };
 </script>
+
+<style></style>
