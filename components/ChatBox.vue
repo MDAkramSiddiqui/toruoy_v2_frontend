@@ -4,10 +4,11 @@
       <div class="msger">
         <main class="msger-chat">
           <Message
-            v-for="(msg, index) in messages"
-            :key="index"
-            :message="msg"
-            :pkey="index"
+            v-for="msg in messages"
+            :key="msg.id"
+            :message="msg.message"
+            :time="msg.createdAt"
+            :userHandle="msg.userHandle"
           />
         </main>
       </div>
@@ -18,8 +19,11 @@
             type="text"
             class="msger-input"
             placeholder="Enter your message..."
+            ref="msg"
           />
-          <button type="submit" class="msger-send-btn">Send</button>
+          <button type="submit" class="msger-send-btn" @click="getMessage">
+            Send
+          </button>
         </form>
       </div>
     </b-card>
@@ -32,7 +36,15 @@ export default {
   components: {
     Message
   },
-  props: ["messages"]
+  props: ["messages", "postMessage"],
+  methods: {
+    getMessage(e) {
+      e.preventDefault();
+      const message = this.$refs.msg.value;
+      this.$refs.msg.value = "";
+      this.postMessage(message);
+    }
+  }
 };
 </script>
 

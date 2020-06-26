@@ -1,11 +1,13 @@
 <template>
   <div>
     <div class="text item">
-      <div class="msg left-msg" v-if="parseInt(pkey) / 2">
+      <div class="msg left-msg" v-if="userHandle !== this.$auth.user.handle">
         <div class="msg-bubble">
           <div class="msg-info">
-            <div class="msg-info-name">BOT</div>
-            <div class="msg-info-time">12:45</div>
+            <div class="msg-info-name">{{ userHandle }}</div>
+            <div class="msg-info-time">
+              {{ time.replace(/^[^:]*([0-2]\d:[0-5]\d).*$/, "$1") }}
+            </div>
           </div>
 
           <div class="msg-text">
@@ -17,8 +19,10 @@
       <div class="msg right-msg" v-else>
         <div class="msg-bubble">
           <div class="msg-info">
-            <div class="msg-info-name">Sajad</div>
-            <div class="msg-info-time">12:46</div>
+            <div class="msg-info-name">{{ userHandle }}</div>
+            <div class="msg-info-time">
+              {{ time }}
+            </div>
           </div>
 
           <div class="msg-text">
@@ -32,7 +36,7 @@
 
 <script>
 export default {
-  props: ["message", "pkey"]
+  props: ["message", "userHandle", "time"]
 };
 </script>
 

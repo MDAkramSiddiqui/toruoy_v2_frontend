@@ -35,7 +35,7 @@
               <h3>
                 Chatroom: <b-badge>{{ active }}</b-badge>
               </h3>
-              <ChatBox :messages="messages" />
+              <ChatBox :messages="messages" :postMessage="postMessage" />
             </div>
           </b-overlay>
         </b-col>
@@ -61,10 +61,6 @@ export default {
     return {
       load: false,
       chatLoad: false,
-      messages: [
-        "Game is the best lorem Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum vero quae saepe unde officia corporis doloribus dolores harum exercitationem minus non velit suscipit quas et, consectetur beatae magnam quos expedita?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum vero quae saepe unde officia corporis doloribus dolores harum exercitationem minus non velit suscipit quas et, consectetur beatae magnam quos expedita?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum vero quae saepe unde officia corporis doloribus dolores harum exercitationem minus non velit suscipit quas et, consectetur beatae magnam quos expedita? ",
-        "Human Beings are the best."
-      ],
       active: null
     };
   },
@@ -75,6 +71,9 @@ export default {
     },
     chatRoomJoinedList: function() {
       return this.$store.state.chatroom.chatRoomJoinedList;
+    },
+    messages: function() {
+      return this.$store.state.chat.messages;
     }
   },
   methods: {
@@ -92,8 +91,21 @@ export default {
       this.load = false;
     },
 
-    async setActive(chatRoomHandle) {
+    async setActive(chatRoomHandle, message) {
       this.active = chatRoomHandle;
+      this.chatLoad = true;
+      await this.$store.dispatch("chat/getChatRoomChat", this.active);
+      this.chatLoad = false;
+    },
+
+    async postMessage(message) {
+      this.chatLoad = true;
+      const data = {
+        message,
+        chatRoomHandle: this.active
+      };
+      await this.$store.dispatch("chat/postMessage", data);
+      this.chatLoad = false;
     }
   }
 };
