@@ -43,6 +43,9 @@ export default {
           "/chat-room/join-room",
           this.form
         );
+
+        this.$socket.client.emit("joinRoom", result.data.chatRoomHandle);
+
         this.load = false;
 
         let message = `ChatRoom Joined Successfully, ChatRoom Id/Name is ${result.data.chatRoomHandle}`;

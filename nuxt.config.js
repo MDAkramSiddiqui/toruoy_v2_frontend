@@ -27,7 +27,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [{ src: "~/plugins/socket.client.js", mode: "client" }],
   /*
    ** Nuxt.js dev-modules
    */
@@ -76,10 +76,10 @@ export default {
         }
       }
     }
-  }
+  },
 
-  // server: {
-  //   port: 3000, // default: 3000
-  //   host: "0.0.0.0" // default: localhost
-  // }
+  server: {
+    port: 3000, // default: 3000
+    host: "0.0.0.0" // default: localhost
+  }
 };

@@ -42,9 +42,12 @@ export default {
         "/chat-room/create-room",
         this.form
       );
+
       this.load = false;
 
       if (result.status === "success") {
+        this.$socket.client.emit("joinRoom", result.data.chatRoomHandle);
+
         let message = `ChatRoom Created Successfully, ChatRoom Id/Name is ${result.data.chatRoomHandle}`;
         this.chatRoomHandle = result.data.chatRoomHandle;
         swal({
@@ -69,7 +72,7 @@ export default {
           }
         });
       } else {
-        swal({
+        await swal({
           title: "ChatRoom Create",
           text: "Some Problem occured, Please try again.",
           icon: "error",

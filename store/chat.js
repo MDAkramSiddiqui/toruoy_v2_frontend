@@ -21,8 +21,11 @@ export const actions = {
   },
 
   async postMessage({ commit }, data) {
-    console.log(data);
     const result = await this.$axios.$post("/chats/post-message", data);
+    this._vm.$socket.client.emit("newMessage", {
+      chatRoomHandle: data.chatRoomHandle,
+      message: result.data.currentMessage
+    });
     commit("UPDATE_CHATROOM_CHAT", result.data.currentMessage);
   }
 };

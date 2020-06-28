@@ -76,17 +76,45 @@ export default {
       return this.$store.state.chat.messages;
     }
   },
+
+  sockets: {
+    connected(id) {
+      console.log("Connected to the socket", id);
+    },
+
+    newMessage(data) {
+      console.log("message emit reiceved", data);
+      this.$store.commit("chat/UPDATE_CHATROOM_CHAT", data);
+    },
+
+    async roomDeleted(data) {
+      console.log("roomDeleted emit reiceved", data);
+      this.load = true;
+      await this.$store.dispatch("chatroom/updateChatRoomList");
+      this.active = null;
+      this.load = false;
+    },
+
+    roomJoined(data) {
+      console.log("roomJoined emit reiceved", data);
+    }
+  },
   methods: {
     async onLeave(id) {
       this.load = true;
+      const chatRoomHandleForSocket = this.active;
       await this.$store.dispatch("chatroom/leaveChatRoom", id);
+      this.$socket.client.emit("leaveChatRoom", chatRoomHandleForSocket);
       this.active = null;
       this.load = false;
     },
 
     async onDelete(id) {
       this.load = true;
+      const chatRoomHandleForSocket = this.active;
       await this.$store.dispatch("chatroom/deleteChatRoom", id);
+      this.$socket.client.emit("deleteChatRoom", chatRoomHandleForSocket);
+      // await this.$store.dispatch("chatroom/updateChatRoomList");
       this.active = null;
       this.load = false;
     },
@@ -99,11 +127,13 @@ export default {
     },
 
     async postMessage(message) {
-      const data = {
-        message,
-        chatRoomHandle: this.active
-      };
-      await this.$store.dispatch("chat/postMessage", data);
+      if (message.trim().length > 0) {
+        const data = {
+          message,
+          chatRoomHandle: this.active
+        };
+        await this.$store.dispatch("chat/postMessage", data);
+      }
     }
   }
 };
