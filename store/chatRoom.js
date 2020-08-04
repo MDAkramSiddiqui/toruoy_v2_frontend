@@ -1,6 +1,6 @@
 export const state = () => ({
   chatRoomCreatedList: [],
-  chatRoomJoinedList: []
+  chatRoomJoinedList: [],
 });
 
 export const mutations = {
@@ -14,7 +14,7 @@ export const mutations = {
         state.chatRoomJoinedList.push(payload[i]);
       }
     }
-  }
+  },
 };
 
 export const actions = {
@@ -33,7 +33,14 @@ export const actions = {
     await this.$axios.$delete(`chat-room/delete/${id}`);
     const result = await this.$axios.$get("users/my-chatrooms");
     commit("UPDATE_CHATROOM_LIST", result.data.rooms);
-  }
+  },
 };
 
-export const getters = {};
+export const getters = {
+  getChatRoomCreatedList(state) {
+    return state.chatRoomCreatedList;
+  },
+  getChatRoomJoinedList(state) {
+    return state.chatRoomJoinedList;
+  },
+};

@@ -11,10 +11,10 @@ export default {
       {
         hid: "description",
         name: "description",
-        content: process.env.npm_package_description || ""
-      }
+        content: process.env.npm_package_description || "",
+      },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
   /*
    ** Customize the progress-bar color
@@ -39,7 +39,7 @@ export default {
     // Doc: https://bootstrap-vue.js.org
     "bootstrap-vue/nuxt",
     "@nuxtjs/axios",
-    "@nuxtjs/auth"
+    "@nuxtjs/auth",
   ],
   /*
    ** Build configuration
@@ -48,14 +48,14 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, ctx) {},
   },
 
   /*
    ** Axios Options
    */
   axios: {
-    baseURL: process.env.API_URL || "http://localhost:8080/api/v1/"
+    baseURL: process.env.API_URL || "http://localhost:8080/api/v1/",
   },
 
   /*
@@ -69,17 +69,17 @@ export default {
           login: {
             url: "users/create-handle",
             method: "get",
-            propertyName: "token"
+            propertyName: "token",
           },
           logout: { url: "users/leave", method: "delete" },
-          user: { url: "users/me", method: "get", propertyName: "data.user" }
-        }
-      }
-    }
+          user: { url: "users/me", method: "get", propertyName: "data.user" },
+        },
+      },
+    },
   },
 
-  server: {
-    port: 3000, // default: 3000
-    host: "0.0.0.0" // default: localhost
-  }
+  // server: {
+  //   port: 3000, // default: 3000
+  //   host: "0.0.0.0" // default: localhost
+  // }
 };
