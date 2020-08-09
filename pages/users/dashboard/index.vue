@@ -75,6 +75,15 @@ export default {
       chatRoomJoinedList: "chatroom/getChatRoomJoinedList",
       messages: "chat/getMessages",
     }),
+    // chatRoomCreatedList() {
+    //   return this.$store.state.chatroom.chatRoomCreatedList;
+    // },
+    // chatRoomJoinedList() {
+    //   return this.$store.state.chatroom.chatRoomJoinedList;
+    // },
+    // messages() {
+    //   return this.$store.state.chat.messages;
+    // },
   },
 
   sockets: {
